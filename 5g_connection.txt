@@ -1,0 +1,262 @@
+MIB:
+Downlink Channel Bandwidth:
+   •Number of PRB: 50
+ PHICH configuration:
+   •PHICH Duration: norm
+   •PHICH Resource: 1/6
+ System Frame Number: 12
+SIB1:
+{
+  "cellAccessRelatedInfo": {
+    "plmn-IdentityList": [
+      {
+        "plmn-Identity": {
+          "mcc": [
+            0,
+            0,
+            1
+          ],
+          "mnc": [
+            0,
+            1
+          ]
+        },
+        "cellReservedForOperatorUse": "notReserved"
+      }
+    ],
+    "trackingAreaCode": "0000000000000111",
+    "cellIdentity": "0000000000011001101100000001",
+    "cellBarred": "notBarred",
+    "intraFreqReselection": "allowed",
+    "csg-Indication": false
+  },
+  "cellSelectionInfo": {
+    "q-RxLevMin": -65
+  },
+  "freqBandIndicator": 7,
+  "schedulingInfoList": [
+    {
+      "si-Periodicity": "rf16",
+      "sib-MappingInfo": [
+        "sibType3"
+      ]
+    }
+  ],
+  "si-WindowLength": "ms20",
+  "systemInfoValueTag": 0
+}
+UPLINK_NAS:175e2c6b88150741010bf600f11000011af61acd9102f07000040201d01191e0
+SIB2:
+{
+  "radioResourceConfigCommon": {
+    "rach-ConfigCommon": {
+      "preambleInfo": {
+        "numberOfRA-Preambles": "n52"
+      },
+      "powerRampingParameters": {
+        "powerRampingStep": "dB6",
+        "preambleInitialReceivedTargetPower": "dBm-104"
+      },
+      "ra-SupervisionInfo": {
+        "preambleTransMax": "n10",
+        "ra-ResponseWindowSize": "sf10",
+        "mac-ContentionResolutionTimer": "sf64"
+      },
+      "maxHARQ-Msg3Tx": 4
+    },
+    "bcch-Config": {
+      "modificationPeriodCoeff": "n16"
+    },
+    "pcch-Config": {
+      "defaultPagingCycle": "rf32",
+      "nB": "oneT"
+    },
+    "prach-Config": {
+      "rootSequenceIndex": 128,
+      "prach-ConfigInfo": {
+        "prach-ConfigIndex": 3,
+        "highSpeedFlag": false,
+        "zeroCorrelationZoneConfig": 5,
+        "prach-FreqOffset": 4
+      }
+    },
+    "pdsch-ConfigCommon": {
+      "referenceSignalPower": 0,
+      "p-b": 0
+    },
+    "pusch-ConfigCommon": {
+      "pusch-ConfigBasic": {
+        "n-SB": 1,
+        "hoppingMode": "interSubFrame",
+        "pusch-HoppingOffset": 2,
+        "enable64QAM": false
+      },
+      "ul-ReferenceSignalsPUSCH": {
+        "groupHoppingEnabled": false,
+        "groupAssignmentPUSCH": 0,
+        "sequenceHoppingEnabled": false,
+        "cyclicShift": 0
+      }
+    },
+    "pucch-ConfigCommon": {
+      "deltaPUCCH-Shift": "ds1",
+      "nRB-CQI": 1,
+      "nCS-AN": 0,
+      "n1PUCCH-AN": 12
+    },
+    "soundingRS-UL-ConfigCommon": {
+    },
+    "uplinkPowerControlCommon": {
+      "p0-NominalPUSCH": -85,
+      "alpha": "al07",
+      "p0-NominalPUCCH": -107,
+      "deltaFList-PUCCH": {
+        "deltaF-PUCCH-Format1": "deltaF0",
+        "deltaF-PUCCH-Format1b": "deltaF3",
+        "deltaF-PUCCH-Format2": "deltaF1",
+        "deltaF-PUCCH-Format2a": "deltaF2",
+        "deltaF-PUCCH-Format2b": "deltaF2"
+      },
+      "deltaPreambleMsg3": 6
+    },
+    "ul-CyclicPrefixLength": "len1"
+  },
+  "ue-TimersAndConstants": {
+    "t300": "ms2000",
+    "t301": "ms100",
+    "t310": "ms200",
+    "n310": "n1",
+    "t311": "ms10000",
+    "n311": "n1"
+  },
+  "freqInfo": {
+    "ul-CarrierFreq": 21350,
+    "ul-Bandwidth": "n50",
+    "additionalSpectrumEmission": 1
+  },
+  "timeAlignmentTimerCommon": "infinity"
+}
+SIB3:
+{
+  "cellReselectionInfoCommon": {
+    "q-Hyst": "dB2"
+  },
+  "cellReselectionServingFreqInfo": {
+    "s-NonIntraSearch": 3,
+    "threshServingLow": 2,
+    "cellReselectionPriority": 6
+  },
+  "intraFreqCellReselectionInfo": {
+    "q-RxLevMin": -61,
+    "p-Max": 23,
+    "s-IntraSearch": 5,
+    "presenceAntennaPort1": true,
+    "neighCellConfig": "01",
+    "t-ReselectionEUTRA": 1
+  }
+}
+SIB2:
+{
+  "radioResourceConfigCommon": {
+    "rach-ConfigCommon": {
+      "preambleInfo": {
+        "numberOfRA-Preambles": "n52"
+      },
+      "powerRampingParameters": {
+        "powerRampingStep": "dB6",
+        "preambleInitialReceivedTargetPower": "dBm-104"
+      },
+      "ra-SupervisionInfo": {
+        "preambleTransMax": "n10",
+        "ra-ResponseWindowSize": "sf10",
+        "mac-ContentionResolutionTimer": "sf64"
+      },
+      "maxHARQ-Msg3Tx": 4
+    },
+    "bcch-Config": {
+      "modificationPeriodCoeff": "n16"
+    },
+    "pcch-Config": {
+      "defaultPagingCycle": "rf32",
+      "nB": "oneT"
+    },
+    "prach-Config": {
+      "rootSequenceIndex": 128,
+      "prach-ConfigInfo": {
+        "prach-ConfigIndex": 3,
+        "highSpeedFlag": false,
+        "zeroCorrelationZoneConfig": 5,
+        "prach-FreqOffset": 4
+      }
+    },
+    "pdsch-ConfigCommon": {
+      "referenceSignalPower": 0,
+      "p-b": 0
+    },
+    "pusch-ConfigCommon": {
+      "pusch-ConfigBasic": {
+        "n-SB": 1,
+        "hoppingMode": "interSubFrame",
+        "pusch-HoppingOffset": 2,
+        "enable64QAM": false
+      },
+      "ul-ReferenceSignalsPUSCH": {
+        "groupHoppingEnabled": false,
+        "groupAssignmentPUSCH": 0,
+        "sequenceHoppingEnabled": false,
+        "cyclicShift": 0
+      }
+    },
+    "pucch-ConfigCommon": {
+      "deltaPUCCH-Shift": "ds1",
+      "nRB-CQI": 1,
+      "nCS-AN": 0,
+      "n1PUCCH-AN": 12
+    },
+    "soundingRS-UL-ConfigCommon": {
+    },
+    "uplinkPowerControlCommon": {
+      "p0-NominalPUSCH": -85,
+      "alpha": "al07",
+      "p0-NominalPUCCH": -107,
+      "deltaFList-PUCCH": {
+        "deltaF-PUCCH-Format1": "deltaF0",
+        "deltaF-PUCCH-Format1b": "deltaF3",
+        "deltaF-PUCCH-Format2": "deltaF1",
+        "deltaF-PUCCH-Format2a": "deltaF2",
+        "deltaF-PUCCH-Format2b": "deltaF2"
+      },
+      "deltaPreambleMsg3": 6
+    },
+    "ul-CyclicPrefixLength": "len1"
+  },
+  "ue-TimersAndConstants": {
+    "t300": "ms2000",
+    "t301": "ms100",
+    "t310": "ms200",
+    "n310": "n1",
+    "t311": "ms10000",
+    "n311": "n1"
+  },
+  "freqInfo": {
+    "ul-CarrierFreq": 21350,
+    "ul-Bandwidth": "n50",
+    "additionalSpectrumEmission": 1
+  },
+  "timeAlignmentTimerCommon": "infinity"
+}
+UPLINK_RRC:2000402ebc58d7102a0e820217ec01e220000235ec359b2205e0e000080403a02323c0
+DOWNLINK_RRC:300020
+UPLINK_RRC:2800
+DOWNLINK_RRC:380000
+UPLINK_RRC:380100b818000018000f3020800000
+DOWNLINK_RRC:201610800000068b02801289fdeab92043c1d0804f8180003c440001c0075480704041c1c19cdc9cd85c1b81406b04000249c220000341020202021402fd803c44000046bd86b36484c03c44000188c17d3d86b364989f07d40be3a43c733cb833321834c00026408000f8
+UPLINK_RRC:1000
+DOWNLINK_NAS:27f7aae4810f0742013e060000f1100007001d5201c10107070673727361706e0501ac100009270880000d0408080808500bf600f11000011af61acd921300f11000062305f4f61acd92
+UPLINK_NAS:270000000016074300035200c2
+UPLINK_RRC:4801a4fb9a5e1c42c0e860006a401840
+DOWNLINK_RRC:0801993ae878b1b0803b0a18c4169dbccbf07e5e59034cc4e3f41d37c9cdeee4f41d22093a283c339fcae0d3a0123994049484248000
+DOWNLINK_NAS:275d0f1636100761431882d3b7997e0fcbcb2069989c7e83a6f939bddc9e83a4412745078673f95c1a74024732809290849000
+UPLINK_NAS:1700000000170745090bf600f11000011af61acd92
+UPLINK_RRC:4802a2f2c6afa1c2e0e8a1217ec01e220000235ec359b240
+DOWNLINK_RRC:2802

@@ -1,18 +1,24 @@
 import socket
 import threading
 import struct
+import subprocess
 from pycrate_mobile.NAS import *
 from pycrate_asn1dir import RRCLTE
 from binascii import unhexlify, hexlify
 import binascii
 import ast
 import json_handler
+import CryptoMobile
+from colorama import init, Fore, Back
+import os
+import signal
 
 
 DOWNLINK = 0
 UPLINK = 1
 file = None
 Attach_proc_mex_dec = {}
+ue_pid = 0
 
 # def handle_client(client_socket):
 #     """Funzione che gestisce la connessione del client"""
@@ -246,6 +252,7 @@ def cell_information_gathering():
     #Si analizzano mib e i sibs
 
     item = Attach_proc_mex_dec["SIB1"][0]
+    parameter = None
     print(item)
     mcc = json_handler.parse_json_msg(item, "mcc")
     mnc = json_handler.parse_json_msg(item, "mnc")
@@ -268,7 +275,14 @@ def cell_information_gathering():
     for item in Attach_proc_mex_dec["UPLINK_RRC"]:
         
         print(item)
+        selectedPLMN_Identity = json_handler.parse_json_msg(item, "selectedPLMN-Identity")
+        if selectedPLMN_Identity is not None:
+            print("\n\tselectedPLMN_Identity: {}".format(selectedPLMN_Identity))
+
         
+
+         
+
         #get parameters
 
         if json_handler.parse_json_msg(item, "dedicatedInfoNAS") != None or json_handler.parse_json_msg(item, "dedicatedInfoNASList"):
@@ -282,7 +296,7 @@ def cell_information_gathering():
     dL_nas = 0
     for item in Attach_proc_mex_dec["DOWNLINK_RRC"]:
         
-        print(item)
+        #print(item)
         
         #get parameters
         
@@ -293,13 +307,64 @@ def cell_information_gathering():
 
     print(dL_nas)
     print(len(Attach_proc_mex_dec["DOWNLINK_NAS"]))
+
+def wait_ue_signal():
     
+    # Avvia il processo
+    command = "./ue.sh"
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    # Ottieni il PID del processo
+    pid = process.pid
+
+    # Crea la pipe
+    pipe_path = "./my_pipe"
+    os.mkfifo(pipe_path)
+
+    try:
+        print("Waiting for UE attach procedure finish")
+
+        with open(pipe_path, 'r') as pipe:
+            data = pipe.read()
+            print(data)
+
+    finally:
+        print("bella")
+        # Interrompi il processo
+        kill_command = ["sudo", "pkill", "srsue"]
+
+        # Esegui il comando di kill
+        completed_process = subprocess.run(kill_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+        # Verifica il codice di uscita del processo
+        if completed_process.returncode is None:
+            print("Il comando di kill è ancora in esecuzione.")
+        else:
+            print("Il comando di kill è stato completato con codice di uscita:", completed_process.returncode)
+
+        os.remove(pipe_path)
+       
+
 
 if __name__ == "__main__":
+
+    #Aspetto che mi arrivi il segnale di inizio analisi
+    # Ricevi il messaggio dallo standard input
+    wait_ue_signal()
+
     file_path = "../5g_connection.txt" 
     sections = parse_file(file_path)
     file = open("parameters_parsed.txt", "+w")
     # Stampa i contenuti dei messaggi
+    print("""
+╭─────────────────────────────────────────────────╮
+│ .------.  ,----.  ,--.   ,--.  ,---.  ,------.  │
+│ |  .--.' '  .-./  |   `.'   | /  O  \\ |  .--. ' │
+│ '---. \\ |  | .---.|  |'.'|  ||  .-.  ||  '--' | │
+│ .---' / '  '--'  ||  |   |  ||  | |  ||  | --'  │
+│ `----'   `------' `--'   `--'`--' `--'`--'      │
+╰─────────────────────────────────────────────────╯
+""")
 
     # Stampa il risultato
     for section_name, section_lines in sections.items():
@@ -339,14 +404,3 @@ if __name__ == "__main__":
             #print(section_lines)  
 
     cell_information_gathering()
-        
-
-
-
-
-
-
-
-# if __name__ == "__main__":
-#     file_path = "../5g_connection.txt"  # Sostituisci con il percorso e nome del file contenente le stringhe
-#     message_reader(file_path)
