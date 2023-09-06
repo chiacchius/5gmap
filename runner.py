@@ -20,101 +20,24 @@ file = None
 Attach_proc_mex_dec = {}
 ue_pid = 0
 
-# def handle_client(client_socket):
-#     """Funzione che gestisce la connessione del client"""
-#     # Ricevi i dati inviati dal client
-#     while True:
-        
-#         message = client_socket.recv(8192)
-#         if not message:
-#             break
-#         unpack_format = 'iii' + str(len(message) - 12) + 's'  # Costruzione del formato di unpack dinamico
-#         unpacked_message = struct.unpack(unpack_format, message)
-#         msg_lenght = unpacked_message[2]
-#         total_lenght = msg_lenght + 12 #12 bytes di header
-        
-#         if total_lenght != len(message):
-
-#             messages = []
-#             messages.append(message[:total_lenght])
-#             messages.append(splitter(total_lenght, message, messages))
-#             #print(messages)
-#             for msg in messages:
-                
-#                 manage_msg_received(msg)
-
-#         else:
-#             manage_msg_received(message)
-        
-
-            
-#     # Chiudi la connessione
-#     client_socket.close()
-
-
-# def splitter(total_lenght, data, messages):
-
-    
-#     remaining_data = data[total_lenght:]
-#     unpack_format = 'iii' + str(len(remaining_data) - 12) + 's'
-#     unpacked_remaining_data = struct.unpack(unpack_format, remaining_data)
-#     msg_lenght = unpacked_remaining_data[2]
-#     total_lenght = msg_lenght + 12 #12 bytes di header
-#     #print("Total bytes remaining: {}" .format(total_lenght))
-#     if total_lenght != len(remaining_data):
-#         #split the message
-#         #print("More messagges in queue___")
-#         messages.append(splitter(total_lenght, remaining_data, messages))
-#         return messages
-#     else:
-#         return remaining_data
-
-
-
-
-
-# def manage_msg_received(msg):
-    
-#     unpack_format = 'iii' + str(len(msg) - 12) + 's'
-#     unpacked_data = struct.unpack(unpack_format, msg)
-#     enc = unpacked_data[0]
-#     link = unpacked_data[1]
-#     msg_lenght = unpacked_data[2]
-#     data = unpacked_data[3].decode()
-#     if enc:
-#         asn1_rrc_decode(link, data)
-#         print("\n")
-#     else:
-#         print(data)
-
-
-
 
 def asn1_rrc_decode(link, bytes):
     
     if link == DOWNLINK:
         sch = RRCLTE.EUTRA_RRC_Definitions.DL_DCCH_Message
         sch.from_uper(unhexlify(bytes))
-        print("DOWNLINK RRC MESSAGE:")
         Attach_proc_mex_dec["DOWNLINK_RRC"].append(sch.to_json())
         file.write("RRC DOWNLINK\n")
         file.flush()
-        #print(sch.to_json())
-        #json_handler.json_parser(sch.to_json(), file)
-        #json_handler.parse_json_msg(sch.to_json())
         file.write("------------- \n")
         file.flush()
 
     elif link == UPLINK: 
         sch = RRCLTE.EUTRA_RRC_Definitions.UL_DCCH_Message
         sch.from_uper(unhexlify(bytes))
-        #print("UPLINK RRC MESSAGE:")
         Attach_proc_mex_dec["UPLINK_RRC"].append(sch.to_json())
         file.write("RRC UPLINK\n")
         file.flush()
-        #print(sch.to_json())
-        #json_handler.json_parser(sch.to_json(), file)
-        #json_handler.parse_json_msg(sch.to_json())
         file.write("------------- \n")
         file.flush()
     
@@ -137,7 +60,6 @@ def asn1_nas_decode(link, bytes):
     Msg= ""
     
     if link == DOWNLINK:
-        print("DOWNLINK NAS MESSAGE:")
         #print(sch.to_asn1())
         Msg, err = parse_NAS_MT(unhexlify(bytes))
         newMsg = get_NASMessage_if_SecHdr_is_2(str(Msg))
@@ -162,7 +84,6 @@ def asn1_nas_decode(link, bytes):
         
 
     elif link == UPLINK: 
-        print("UPLINK NAS MESSAGE:")
         Msg, err = parse_NAS_MO(unhexlify(bytes))
         newMsg = get_NASMessage_if_SecHdr_is_2(str(Msg))
         #print(newMsg)
@@ -253,7 +174,6 @@ def cell_information_gathering():
 
     item = Attach_proc_mex_dec["SIB1"][0]
     parameter = None
-    print(item)
     mcc = json_handler.parse_json_msg(item, "mcc")
     mnc = json_handler.parse_json_msg(item, "mnc")
     cellReservedForOperatorUse = json_handler.parse_json_msg(item, "cellReservedForOperatorUse")
@@ -270,52 +190,47 @@ def cell_information_gathering():
     print("\tcellIdentity: {}".format(cellIdentity))
     print("\tintraFreqReselection: {}".format(intraFreqReselection))
     print("\tcellBarred: {}".format(cellBarred))
-        
+    
+    
+    #manage uplink parameter
     uL_nas = 0
     for item in Attach_proc_mex_dec["UPLINK_RRC"]:
+        #print(item)
+
+        if json_handler.parse_json_msg(item, "rrcConnectionSetupComplete")!=None:
+
+            selectedPLMN_Identity = json_handler.parse_json_msg(item, "selectedPLMN-Identity")
+            if selectedPLMN_Identity != None:
+                print("\tselectedPLMN_Identity: {}".format(selectedPLMN_Identity))
+            
         
-        print(item)
-        selectedPLMN_Identity = json_handler.parse_json_msg(item, "selectedPLMN-Identity")
-        if selectedPLMN_Identity is not None:
-            print("\n\tselectedPLMN_Identity: {}".format(selectedPLMN_Identity))
 
-        
-
-         
-
-        #get parameters
-
-        if json_handler.parse_json_msg(item, "dedicatedInfoNAS") != None or json_handler.parse_json_msg(item, "dedicatedInfoNASList"):
-
-            print(Attach_proc_mex_dec["UPLINK_NAS"][uL_nas])
+        #check if there is a nas message
+        if json_handler.parse_json_msg(item, "dedicatedInfoNAS") != None or json_handler.parse_json_msg(item, "dedicatedInfoNASList") != None:
             uL_nas += 1
 
-    print(uL_nas)
-    print(len(Attach_proc_mex_dec["UPLINK_NAS"]))
 
+    #manage dowlink parameter
     dL_nas = 0
     for item in Attach_proc_mex_dec["DOWNLINK_RRC"]:
-        
-        #print(item)
-        
-        #get parameters
-        
-        if json_handler.parse_json_msg(item, "dedicatedInfoNAS") != None or json_handler.parse_json_msg(item, "dedicatedInfoNASList"):
 
-            print(Attach_proc_mex_dec["DOWNLINK_NAS"][dL_nas])
+        
+
+
+        if json_handler.parse_json_msg(item, "dedicatedInfoNAS") != None or json_handler.parse_json_msg(item, "dedicatedInfoNASList") != None:
+            
+            
+
             dL_nas += 1
 
-    print(dL_nas)
-    print(len(Attach_proc_mex_dec["DOWNLINK_NAS"]))
+
+    
 
 def wait_ue_signal():
-    
     # Avvia il processo
     command = "./ue.sh"
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    # Ottieni il PID del processo
-    pid = process.pid
 
     # Crea la pipe
     pipe_path = "./my_pipe"
@@ -325,11 +240,10 @@ def wait_ue_signal():
         print("Waiting for UE attach procedure finish")
 
         with open(pipe_path, 'r') as pipe:
-            data = pipe.read()
-            print(data)
+            #data = pipe.read()
+            print("Attach procedure finished with success")
 
     finally:
-        print("bella")
         # Interrompi il processo
         kill_command = ["sudo", "pkill", "srsue"]
 
@@ -352,7 +266,7 @@ if __name__ == "__main__":
     # Ricevi il messaggio dallo standard input
     wait_ue_signal()
 
-    file_path = "../5g_connection.txt" 
+    file_path = "./5g_connection.txt" 
     sections = parse_file(file_path)
     file = open("parameters_parsed.txt", "+w")
     # Stampa i contenuti dei messaggi
@@ -370,7 +284,7 @@ if __name__ == "__main__":
     for section_name, section_lines in sections.items():
 
         Attach_proc_mex_dec[section_name] = []
-        print(section_name)
+       
         
         #print(f"{section_name}")
         if section_name=="UPLINK_RRC":
@@ -386,13 +300,13 @@ if __name__ == "__main__":
 
         elif section_name=="UPLINK_NAS":
             for ex_message in section_lines:
-                print("ciao")
-                print(ex_message)
+                
+                #print(ex_message)
                 asn1_nas_decode(UPLINK, ex_message)
 
         elif section_name=="DOWNLINK_NAS":
             for ex_message in section_lines:
-                print(ex_message)
+                #print(ex_message)
                 asn1_nas_decode(DOWNLINK, ex_message)
 
         else:
@@ -401,6 +315,9 @@ if __name__ == "__main__":
             Attach_proc_mex_dec[section_name].append(section_lines)
             #print(formatted_string)
             file.write(formatted_string)
-            #print(section_lines)  
+            #print(section_lines)
+    
+    
+    
 
     cell_information_gathering()
