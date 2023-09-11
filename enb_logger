@@ -1,0 +1,76 @@
+Active RF plugins: libsrsran_rf_zmq.so
+Inactive RF plugins: 
+---  Software Radio Systems LTE eNodeB  ---
+
+Couldn't open , trying /root/.config/srsran/enb.conf
+Reading configuration file /root/.config/srsran/enb.conf...
+Couldn't open sib.conf, trying /root/.config/srsran/sib.conf
+Couldn't open rr.conf, trying /root/.config/srsran/rr.conf
+Couldn't open rb.conf, trying /root/.config/srsran/rb.conf
+
+Built in Release mode using commit e700bed on branch main.
+
+Opening 1 channels in RF device=zmq with args=fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
+Supported RF device list: zmq file
+CHx base_srate=23.04e6
+CHx id=enb
+Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
+CH0 rx_port=tcp://localhost:2001
+CH0 tx_port=tcp://*:2000
+CH0 fail_on_disconnect=true
+
+==== eNodeB started ===
+Type <t> to view trace
+Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
+Setting frequency: DL=2680.0 Mhz, UL=2560.0 MHz for cc_idx=0 nof_prb=50
+Closing stdin thread.
+RACH:  tti=341, cc=0, pci=1, preamble=45, offset=0, temp_crnti=0x46
+
+[31mDOWNLINK[0m Message with size: 35
+[31m20 [0m[31m00 [0m[31m40 [0m[31m2f [0m[31m44 [0m[31m53 [0m[31m8e [0m[31md4 [0m[31m00 [0m[31m0e [0m[31m82 [0m[31m02 [0m[31m17 [0m[31mec [0m[31m01 [0m[31me2 [0m[31m20 [0m[31m00 [0m[31m02 [0m[31m35 [0m[31m33 [0m[31m1b [0m[31m09 [0m[31ma0 [0m[31m05 [0m[31me0 [0m[31me0 [0m[31m00 [0m[31m08 [0m[31m04 [0m[31m03 [0m[31ma0 [0m[31m23 [0m[31m23 [0m[31mc0 [0m
+
+[32mUPLINK[0m Message with size: 6
+[32m08 [0m[32m00 [0m[32m18 [0m[32m3a [0m[32ma8 [0m[32m08 [0m
+
+[31mDOWNLINK[0m Message with size: 14
+[31m48 [0m[31m01 [0m[31m60 [0m[31mea [0m[31mc1 [0m[31m01 [0m[31m22 [0m[31m02 [0m[31m02 [0m[31m06 [0m[31m4a [0m[31m8e [0m[31mc1 [0m[31m00 [0m
+
+[32mUPLINK[0m Message with size: 39
+[32m08 [0m[32m01 [0m[32m20 [0m[32m3a [0m[32m90 [0m[32m05 [0m[32m15 [0m[32mbe [0m[32m17 [0m[32m7b [0m[32m9d [0m[32m83 [0m[32m2f [0m[32ma1 [0m[32mbe [0m[32mab [0m[32mf2 [0m[32m18 [0m[32mc6 [0m[32m45 [0m[32ma0 [0m[32m18 [0m[32m80 [0m[32m10 [0m[32ma9 [0m[32m66 [0m[32m68 [0m[32m2b [0m[32m24 [0m[32m00 [0m[32m00 [0m[32ma2 [0m[32mcb [0m[32m10 [0m[32mf1 [0m[32m4c [0m[32mc1 [0m[32m1e [0m[32m28 [0m
+
+[31mDOWNLINK[0m Message with size: 14
+[31m48 [0m[31m01 [0m[31m60 [0m[31mea [0m[31m61 [0m[31m02 [0m[31m6e [0m[31m0c [0m[31m44 [0m[31m60 [0m[31md6 [0m[31m36 [0m[31maf [0m[31m00 [0m
+
+[32mUPLINK[0m Message with size: 16
+[32m08 [0m[32m00 [0m[32m69 [0m[32mba [0m[32mb6 [0m[32mcc [0m[32m2f [0m[32ma0 [0m[32m00 [0m[32m3a [0m[32me8 [0m[32m08 [0m[32m00 [0m[32m17 [0m[32m83 [0m[32m80 [0m
+
+[31mDOWNLINK[0m Message with size: 11
+[31m48 [0m[31m01 [0m[31m08 [0m[31me2 [0m[31mf2 [0m[31m07 [0m[31m23 [0m[31m40 [0m[31m00 [0m[31meb [0m[31mc0 [0m
+
+[32mUPLINK[0m Message with size: 3
+[32m30 [0m[32m02 [0m[32m20 [0m
+
+[31mDOWNLINK[0m Message with size: 2
+[31m28 [0m[31m00 [0m
+
+[32mUPLINK[0m Message with size: 3
+[32m38 [0m[32m00 [0m[32m00 [0m
+
+[31mDOWNLINK[0m Message with size: 15
+[31m38 [0m[31m01 [0m[31m00 [0m[31mb8 [0m[31m18 [0m[31m00 [0m[31m00 [0m[31m18 [0m[31m00 [0m[31m0f [0m[31m30 [0m[31m20 [0m[31m80 [0m[31m00 [0m[31m00 [0m
+
+[32mUPLINK[0m Message with size: 107
+[32m20 [0m[32m16 [0m[32m10 [0m[32m80 [0m[32m00 [0m[32m00 [0m[32m06 [0m[32m8b [0m[32m02 [0m[32m80 [0m[32m12 [0m[32m89 [0m[32mfc [0m[32mbe [0m[32m5b [0m[32ma6 [0m[32mc0 [0m[32m41 [0m[32md0 [0m[32m80 [0m[32m4f [0m[32m81 [0m[32m80 [0m[32m00 [0m[32m3c [0m[32m44 [0m[32m00 [0m[32m01 [0m[32mc0 [0m[32m07 [0m[32m54 [0m[32m80 [0m[32m70 [0m[32m40 [0m[32m41 [0m[32mc1 [0m[32mc1 [0m[32m9c [0m[32mdc [0m[32m9c [0m[32md8 [0m[32m5c [0m[32m1b [0m[32m81 [0m[32m40 [0m[32m6b [0m[32m04 [0m[32m00 [0m[32m0a [0m[32m09 [0m[32mc2 [0m[32m20 [0m[32m00 [0m[32m03 [0m[32m41 [0m[32m02 [0m[32m02 [0m[32m02 [0m[32m02 [0m[32m14 [0m[32m02 [0m[32mfd [0m[32m80 [0m[32m3c [0m[32m44 [0m[32m00 [0m[32m00 [0m[32m46 [0m[32mb3 [0m[32m3e [0m[32m5f [0m[32m39 [0m[32mc4 [0m[32mc0 [0m[32m3c [0m[32m44 [0m[32m00 [0m[32m01 [0m[32m88 [0m[32mc1 [0m[32m7d [0m[32m33 [0m[32m3e [0m[32m5f [0m[32m39 [0m[32md8 [0m[32m9f [0m[32m07 [0m[32md4 [0m[32m0b [0m[32me3 [0m[32ma4 [0m[32m3c [0m[32m73 [0m[32m3c [0m[32mb8 [0m[32m33 [0m[32m32 [0m[32m18 [0m[32m34 [0m[32mc0 [0m[32m00 [0m[32m26 [0m[32m40 [0m[32m80 [0m[32m00 [0m[32mf8 [0m
+
+[31mDOWNLINK[0m Message with size: 2
+[31m10 [0m[31m00 [0m
+
+[31mDOWNLINK[0m Message with size: 16
+[31m48 [0m[31m01 [0m[31ma4 [0m[31med [0m[31m00 [0m[31me9 [0m[31mc2 [0m[31ma0 [0m[31m20 [0m[31me8 [0m[31m60 [0m[31m00 [0m[31m6a [0m[31m40 [0m[31m18 [0m[31m40 [0m
+User 0x46 connected
+
+[32mUPLINK[0m Message with size: 54
+[32m08 [0m[32m01 [0m[32m99 [0m[32m38 [0m[32m3b [0m[32m7d [0m[32m6c [0m[32m18 [0m[32m10 [0m[32m3b [0m[32m0a [0m[32m18 [0m[32mc4 [0m[32m16 [0m[32m9d [0m[32mbc [0m[32mcb [0m[32mf0 [0m[32m7e [0m[32m5e [0m[32m59 [0m[32m03 [0m[32m4c [0m[32mc4 [0m[32me3 [0m[32mf4 [0m[32m1d [0m[32m37 [0m[32mc9 [0m[32mcd [0m[32mee [0m[32me4 [0m[32mf4 [0m[32m1d [0m[32m22 [0m[32m09 [0m[32m3a [0m[32m28 [0m[32m3c [0m[32m33 [0m[32m9f [0m[32mca [0m[32me0 [0m[32md3 [0m[32ma0 [0m[32m12 [0m[32m39 [0m[32m94 [0m[32m84 [0m[32m03 [0m[32m0b [0m[32m80 [0m[32m88 [0m[32m00 [0m
+Stopping ..
+---  exiting  ---

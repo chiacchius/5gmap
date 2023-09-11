@@ -31,8 +31,6 @@ def parse_json_msg(json_string, key):
 
 def parse_nas_message(Msg, key):
     
-    
-    
     if is_iterable(Msg):
         for element in Msg:
             try:
@@ -44,15 +42,15 @@ def parse_nas_message(Msg, key):
             
     else:
         if (Msg._name == key):
-            print(Msg._name)
-            return Msg
+            return str(Msg._val)
+            
         
         return None
         
-        
-        
-    
 
+        
+        
+        
 
 def is_iterable(obj):
     try:

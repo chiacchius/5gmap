@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "Starting UE..."
-sudo python3 runner.py 
+sudo python3 runner.py
