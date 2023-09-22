@@ -10,7 +10,7 @@ def show_indices(obj, indices):
 
 
 
-def parse_json_msg(json_string, key):
+def get_key_value(json_string, key):
     json_value = json.loads(json_string)
     result = []
     for keys, v in show_indices(json_value, []):

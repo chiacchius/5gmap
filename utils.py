@@ -4,13 +4,25 @@ from constant import *
 
 border = "+-------------------------+"
 
-def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgorithm_eNB):
+def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgorithm_eNB, epc_cipher_algo_supported, epc_integ_algo_supported, preferred_algorithms):
     print("\n" + border)
     print("| eNB Security Algorithms |")
     print(border)
     print("| {:<28} | {:<}".format("eNB_cipheringAlgorithm_supported", str(enb_cipher_algo_supported)))
     print("| {:<28} | {:<}".format("eNB_integrityAlgorithm_supported", str(integrityProtAlgorithm_eNB)))
+    print("| {:<28} | {:<}".format("eNB_preferred_cipheringAlgorithm", str(preferred_algorithms[0])))
+    print("| {:<28} | {:<}".format("eNB_preferred_integrityAlgorithm", str(preferred_algorithms[1])))
+
     #print("| {:<28} | {:<}".format("eNB_integrityProtAlgorithm", integrityProtAlgorithm_eNB))
+    print("\n" + border)
+    print("| EPC Security Algorithms |")
+    print(border)
+    print("| {:<28} | {:<}".format("EPC_cipheringAlgorithm_supported", str(epc_cipher_algo_supported)))
+    print("| {:<28} | {:<}".format("EPC_integrityAlgorithm_supported", str(epc_integ_algo_supported)))
+    print("| {:<28} | {:<}".format("EPC_preferred_cipheringAlgorithm", str(preferred_algorithms[2])))
+    print("| {:<28} | {:<}".format("EPC_preferred_integrityAlgorithm", str(preferred_algorithms[3])))
+    #print("| {:<28} | {:<}".format("eNB_integrityProtAlgorithm", integrityProtAlgorithm_eNB))
+
 
 
 
@@ -105,6 +117,7 @@ def file_mex_manager(file, sections):
             if section_name=="UPLINK_RRC":
                 for ex_message in section_lines:
                     #print(ex_message)
+                    
                     Attach_proc_mex_dec["UPLINK_RRC"].append(decoders.asn1_rrc_decode(UPLINK, ex_message, file))
 
             elif section_name=="DOWNLINK_RRC":
