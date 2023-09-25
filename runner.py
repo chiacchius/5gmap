@@ -56,7 +56,6 @@ def run_ue(algo_type, algo_value):
 
 def manage_messages(msg_sections, cyph_algos, integ_algos):
 
-
     communication = Communication(cyph_algos, integ_algos)
     
     for section_name, section_lines in msg_sections.items():
@@ -185,7 +184,6 @@ def main():
 
 if __name__ == "__main__":
     start = time.time()
-
     main()
     end = time.time()
     execution_time = end - start

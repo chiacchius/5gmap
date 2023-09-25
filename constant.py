@@ -1,15 +1,10 @@
-#-------------------- Parameters to change #--------------------
+#-------------------- Parameters to change ---------------------#
 REAL_TESTING = False
 EARFCN = 3500
-#---------------------------------------------------------------
-
-
-
-
-
+#---------------------------------------------------------------#
+#--------------------  Fixed parameters  -----------------------#
 DOWNLINK = 0
 UPLINK = 1
-
 
 CIPHER_ALGORITHMS = 4
 INT_ALGORITHMS = 4
@@ -21,6 +16,6 @@ SECURITY_MODE_REJECT = "Security Mode Reject"
 
 KILL_UE = ["sudo", "pkill", "srsue"]
 KILL_ENB = ["sudo", "pkill", "srsenb"]
-
+#---------------------------------------------------------------#
 
 
