@@ -1,3 +1,12 @@
+#-------------------- Parameters to change #--------------------
+REAL_TESTING = False
+EARFCN = 3500
+#---------------------------------------------------------------
+
+
+
+
+
 DOWNLINK = 0
 UPLINK = 1
 
@@ -12,3 +21,6 @@ SECURITY_MODE_REJECT = "Security Mode Reject"
 
 KILL_UE = ["sudo", "pkill", "srsue"]
 KILL_ENB = ["sudo", "pkill", "srsenb"]
+
+
+

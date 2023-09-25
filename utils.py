@@ -1,6 +1,5 @@
-import decoders
 from constant import *
-
+import datetime
 
 border = "+-------------------------+"
 
@@ -13,7 +12,6 @@ def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgori
     print("| {:<28} | {:<}".format("eNB_preferred_cipheringAlgorithm", str(preferred_algorithms[0])))
     print("| {:<28} | {:<}".format("eNB_preferred_integrityAlgorithm", str(preferred_algorithms[1])))
 
-    #print("| {:<28} | {:<}".format("eNB_integrityProtAlgorithm", integrityProtAlgorithm_eNB))
     print("\n" + border)
     print("| EPC Security Algorithms |")
     print(border)
@@ -21,7 +19,6 @@ def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgori
     print("| {:<28} | {:<}".format("EPC_integrityAlgorithm_supported", str(epc_integ_algo_supported)))
     print("| {:<28} | {:<}".format("EPC_preferred_cipheringAlgorithm", str(preferred_algorithms[2])))
     print("| {:<28} | {:<}".format("EPC_preferred_integrityAlgorithm", str(preferred_algorithms[3])))
-    #print("| {:<28} | {:<}".format("eNB_integrityProtAlgorithm", integrityProtAlgorithm_eNB))
 
 
 
@@ -41,7 +38,26 @@ def print_cell_identity(mcc, mnc, cellReservedForOperatorUse, trackingAreaCode, 
     print("| {:<28} | {:<}".format("cellBarred", cellBarred))
     
 
+def print_header():
+    current_time = datetime.datetime.now() 
+    print(f"Starting 5GMap (https://github.com/chiacchius/5gmap) at {current_time.strftime('%Y-%m-%d %H:%M %Z')}")
+    print("It may take several minutes.")
+    print("""
+╭─────────────────────────────────────────────────╮
+│ .------.  ,----.  ,--.   ,--.  ,---.  ,------.  │
+│ |  .--.' '  .-./  |   `.'   | /  O  \\ |  .--. ' │
+│ '---. \\ |  | .---.|  |'.'|  ||  .-.  ||  '--' | │
+│ .---' / '  '--'  ||  |   |  ||  | |  ||  | --'  │
+│ `----'   `------' `--'   `--'`--' `--'`--'      │
+╰─────────────────────────────────────────────────╯
+""")
+    if REAL_TESTING:
+        #manage imsi 
+        print("[5GMAP]: binding to a real cell")
 
+    else:
+
+        print("[5GMAP]: simulation with srsran")
 
 
 def parse_file(file_path):
@@ -55,7 +71,6 @@ def parse_file(file_path):
         nas_downlink_messages = []
 
         for line in file:
-            #line = line.strip()
 
             if line.startswith("MIB:") | line.startswith("SIB1:") | line.startswith("SIB2:") | line.startswith("SIB3:"):
                 if current_section is not None:
@@ -101,48 +116,3 @@ def parse_file(file_path):
         sections["DOWNLINK_NAS"] = nas_downlink_messages
         return sections
     
-
-
-def file_mex_manager(file, sections):
-
-    Attach_proc_mex_dec = {}
-
-
-    for section_name, section_lines in sections.items():
-
-            Attach_proc_mex_dec[section_name] = []
-        
-            
-            #print(f"{section_name}")
-            if section_name=="UPLINK_RRC":
-                for ex_message in section_lines:
-                    #print(ex_message)
-                    
-                    Attach_proc_mex_dec["UPLINK_RRC"].append(decoders.asn1_rrc_decode(UPLINK, ex_message, file))
-
-            elif section_name=="DOWNLINK_RRC":
-                for ex_message in section_lines:
-                    #print(ex_message)
-                    Attach_proc_mex_dec["DOWNLINK_RRC"].append(decoders.asn1_rrc_decode(DOWNLINK, ex_message, file))
-
-
-            elif section_name=="UPLINK_NAS":
-                for ex_message in section_lines:
-                    
-                    #print(ex_message)
-                    Attach_proc_mex_dec["UPLINK_NAS"].append(decoders.asn1_nas_decode(UPLINK, ex_message, file))
-
-            elif section_name=="DOWNLINK_NAS":
-                for ex_message in section_lines:
-                    #print(ex_message)
-                    Attach_proc_mex_dec["DOWNLINK_NAS"].append(decoders.asn1_nas_decode(DOWNLINK, ex_message, file))
-
-            else:
-                
-                formatted_string = "{}\n {}\n ------------- \n".format(section_name, section_lines)
-                Attach_proc_mex_dec[section_name].append(section_lines)
-                #print(formatted_string)
-                file.write(formatted_string)
-                #print(section_lines)
-
-    return Attach_proc_mex_dec

@@ -1,4 +1,4 @@
-m_tmsi=1503729341
+m_tmsi=-89755059
 mcc=1
 mnc=1
 mme_group_id=1
@@ -8,4 +8,4 @@ rx_count=3
 int_alg=2
 enc_alg=0
 ksi=0
-k_asme=bfe6ab7503d680ee6cbceb103e3c4da7f6d20cb2662fa8c0fe204e91aa6c473c
+k_asme=c276effdee206e1bf7788e43e044e3d98d84e8c49a37b24755bcdd8a07524968

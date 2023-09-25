@@ -1,13 +1,9 @@
 import subprocess
 import datetime
 import time
-import json_handler
-import decoders
 from utils import *
-import CryptoMobile
 from colorama import init, Fore, Back
 import os
-import signal
 from constant import *
 from communication import *
 from data import *
@@ -20,9 +16,8 @@ enb_integ_algo_supported = []
 epc_integ_algo_supported = []
 preferred_algorithms = [None,None,None,None]
 
-
-
 # ---------------------------------------------- Utilities ---------------------------------------------- #
+
 def attach_ue(eea, eia):
     if eea is not None and eia is None:
         run_ue("eea", eea)
@@ -31,9 +26,15 @@ def attach_ue(eea, eia):
 
 def run_ue(algo_type, algo_value):
 
-    print(f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}")
-    command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}"
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if REAL_TESTING:
+        #manage imsi 
+        print(f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}")
+        command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    else:
+        print(f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}")
+        command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     os.mkfifo(PIPE_PATH)
     try:
@@ -41,62 +42,18 @@ def run_ue(algo_type, algo_value):
         if message.read() == SECURITY_MODE_REJECT:
             print(f"'Security Mode Reject' if try to attach with : '{algo_type}0' & '{algo_type}{algo_value}'")
 
-        completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        if REAL_TESTING:
+            completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+        else:
+            completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+            completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     finally:
         os.remove(PIPE_PATH)
         time.sleep(5)
 
 
-
-# def wait_ue_signal(eea, eia):
-
-
-#     if (eea != None and eia == None):
-#         #command = "./ue.sh --nas.eea='0," + str(eea) + "'"
-#         #print("sudo ./5gmap_sim.sh --nas.eea=0," + str(eea))
-#         command = "sudo ./5gmap_sim.sh --nas.eea=0," + str(eea)
-#         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#         # Crea la pipe
-#         #pipe_path = "./my_pipe"
-#         os.mkfifo(PIPE_PATH)
-#         try:
-#             #print("Waiting for UE attach procedure finish")
-#             message = open(PIPE_PATH, 'r')
-#         finally:
-#             if (message.read() == SECURITY_MODE_REJECT):
-#                 print("'Security Mode Reject' if try to attach with : 'eea0' & 'eea" + str(eea) +"'")
-            
-#             # Esegui il comando di kill
-#             completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-#             completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-#             os.remove(PIPE_PATH)
-#             time.sleep(4)
-
-
-#     elif (eea == None and eia != None):
-#         #print("sudo ./5gmap_sim.sh --nas.eia=0," + str(eia))
-#         command = "sudo ./5gmap_sim.sh  --nas.eia=0," + str(eia)
-#         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-#         # Crea la pipe
-#         os.mkfifo(PIPE_PATH)
-#         try:
-#             #print("Waiting for UE attach procedure finish")
-#             message = open(PIPE_PATH, 'r')
-#         finally:
-#             # Interrompi il processo
-#             if (message.read() == SECURITY_MODE_REJECT):
-#                 print("'Security Mode Reject' if try to attach with : 'eia0' & 'eia" + str(eia) +"'")
-
-#             # Esegui il comando di kill
-#             completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-#             completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-#             os.remove(PIPE_PATH)
-#             time.sleep(4)
-
-       
 def manage_messages(msg_sections, cyph_algos, integ_algos):
 
 
@@ -163,7 +120,7 @@ def retrieve_cell_info(communication):
     
     print_cell_identity(mcc, mnc, cellReservedForOperatorUse, trackingAreaCode, cellIdentity, intraFreqReselection, cellBarred)
 
-def manage_sec_algos(is_cipher_loop):
+def manage_sec_algos(communication):
 
     enb_cipher_algo, enb_integ_algo  = communication.find_enb_sec_algo()
     epc_cipher_algo, epc_integ_algo  = communication.find_epc_sec_algo()
@@ -197,53 +154,42 @@ def manage_sec_algos(is_cipher_loop):
         
         preferred_algorithms[3] = epc_integ_algo
 # -------------------------------------------------------------------------------------------------------- #
+def run_cipher_algorithm(eea):
+    attach_ue(eea, None)
+    msg_sections = parse_file(FILE_PATH)
+    communication = manage_messages(msg_sections, [0, eea], None)
+    if eea == 1:
+        retrieve_cell_info(communication)
+    manage_sec_algos(communication)
+
+
+def run_integ_algorithm(eia):
+    attach_ue(None, eia)
+    msg_sections = parse_file(FILE_PATH)
+    communication = manage_messages(msg_sections, None, [0, eia])
+    manage_sec_algos(communication)
+
+
+def main():
+    
+    print_header()
+    for eea in range(1, CIPHER_ALGORITHMS):
+        run_cipher_algorithm(eea)
+
+    for eia in range(1, INT_ALGORITHMS):
+        run_integ_algorithm(eia)
+
+    print_security_algo_supported(enb_cipher_algo_supported, enb_integ_algo_supported, epc_cipher_algo_supported, epc_integ_algo_supported, preferred_algorithms)
 
 
 
 if __name__ == "__main__":
-
-    current_time = datetime.datetime.now() 
     start = time.time()
-    print(f"Starting 5GMap (https://github.com/chiacchius/5gmap) at {current_time.strftime('%Y-%m-%d %H:%M %Z')}")
-    print("It may take several minutes.")
-    print("""
-╭─────────────────────────────────────────────────╮
-│ .------.  ,----.  ,--.   ,--.  ,---.  ,------.  │
-│ |  .--.' '  .-./  |   `.'   | /  O  \\ |  .--. ' │
-│ '---. \\ |  | .---.|  |'.'|  ||  .-.  ||  '--' | │
-│ .---' / '  '--'  ||  |   |  ||  | |  ||  | --'  │
-│ `----'   `------' `--'   `--'`--' `--'`--'      │
-╰─────────────────────────────────────────────────╯
-""")
-    
-    #iterate over CIPHER ALGORITHMS
-    for eea in range(1, CIPHER_ALGORITHMS):
-        
-        #wait_ue_signal(eea, None)
-        attach_ue(eea, None)
-        #file_path = "./5g_connection.txt" 
-        msg_sections = parse_file(FILE_PATH)
-        communication = manage_messages(msg_sections, [0, eea], None)
-        if (eea==1):
-            retrieve_cell_info(communication)
-        manage_sec_algos(True)
-    
 
-    for eia in range(1, INT_ALGORITHMS):
-
-        #wait_ue_signal(None, eia)
-        attach_ue(None, eia)
-        #file_path = "./5g_connection.txt" 
-        msg_sections = parse_file(FILE_PATH)
-        communication = manage_messages(msg_sections, None, [0, eia])
-        manage_sec_algos(False)
-
-    #cell_information_gathering()
-    print_security_algo_supported(enb_cipher_algo_supported, enb_integ_algo_supported, epc_cipher_algo_supported, epc_integ_algo_supported, preferred_algorithms)
+    main()
     end = time.time()
     execution_time = end - start
     print(f"Execution time: {execution_time} seconds")
-
 
         
 

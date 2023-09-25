@@ -8,8 +8,6 @@ def show_indices(obj, indices):
         else:
             yield indices + [k], v
 
-
-
 def get_key_value(json_string, key):
     json_value = json.loads(json_string)
     result = []
@@ -27,8 +25,6 @@ def get_key_value(json_string, key):
     else: 
         return None 
         
-		
-
 def parse_nas_message(Msg, key):
     
     if is_iterable(Msg):
@@ -39,19 +35,13 @@ def parse_nas_message(Msg, key):
                     return value
             except:
                 pass
-            
     else:
         if (Msg._name == key):
             return str(Msg._val)
             
-        
         return None
-        
 
-        
-        
-        
-
+    
 def is_iterable(obj):
     try:
         iter(obj)
