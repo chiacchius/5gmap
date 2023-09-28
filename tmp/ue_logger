@@ -36,7 +36,7 @@ NAS uplink message bytes
 ########Messaggio inviato al server, sib2
 Messaggio inviato al server, sib3
 Messaggio inviato al server, sib2
-Random Access Transmission: seq=35, tti=341, ra-rnti=0x2
+Random Access Transmission: seq=16, tti=341, ra-rnti=0x2
 RRC Connected
 Random Access Complete.     c-rnti=0x46, ta=0
 
@@ -46,26 +46,26 @@ Mando messsaggi al programma python: -1
 
 [31mDOWNLINK[0m Message with size: 39
 Mando messsaggi al programma python: -1
-[31m08 [0m[31m01 [0m[31m20 [0m[31m3a [0m[31m90 [0m[31m00 [0m[31mc5 [0m[31m6a [0m[31m8e [0m[31m8e [0m[31ma2 [0m[31m45 [0m[31m5e [0m[31m48 [0m[31m24 [0m[31m4b [0m[31mb7 [0m[31mf5 [0m[31mb8 [0m[31m41 [0m[31mda [0m[31me0 [0m[31m87 [0m[31m26 [0m[31m4e [0m[31m07 [0m[31m26 [0m[31m9d [0m[31m0c [0m[31m00 [0m[31m07 [0m[31m94 [0m[31md7 [0m[31m5f [0m[31m4a [0m[31m64 [0m[31m96 [0m[31ma1 [0m[31m58 [0m
+[31m08 [0m[31m01 [0m[31m20 [0m[31m3a [0m[31m90 [0m[31m04 [0m[31m31 [0m[31mbf [0m[31m41 [0m[31mdb [0m[31m41 [0m[31mec [0m[31me3 [0m[31m80 [0m[31m4e [0m[31mea [0m[31ma5 [0m[31m09 [0m[31m51 [0m[31m3b [0m[31m18 [0m[31m38 [0m[31m87 [0m[31m0f [0m[31m9c [0m[31m2f [0m[31mb5 [0m[31m6e [0m[31mf4 [0m[31m00 [0m[31m03 [0m[31m03 [0m[31m8b [0m[31m49 [0m[31meb [0m[31m69 [0m[31m09 [0m[31m3d [0m[31md0 [0m
 NAS downlink message decripted bytes
-07520018ad51d1d448abc9048976feb7083b5c10e4c9c0e4d3a18000f29aebe94c92d42b
+0752008637e83b683d9c7009dd54a12a27630710e1f385f6adde80006071693d6d2127ba
     [94m|[0m
     [94m|[0m
     [94mV[0m
 [94mAuthentication request[0m
 [93mAuthentication Response[0m
 NAS uplink message bytes
-075308b00e6243d3376078
+075308fba5664b879e7188
 ########
 [32mUPLINK[0m Message with size: 14
 Mando messsaggi al programma python: -1
-[32m48 [0m[32m01 [0m[32m60 [0m[32mea [0m[32m61 [0m[32m16 [0m[32m01 [0m[32mcc [0m[32m48 [0m[32m7a [0m[32m66 [0m[32mec [0m[32m0f [0m[32m00 [0m
+[32m48 [0m[32m01 [0m[32m60 [0m[32mea [0m[32m61 [0m[32m1f [0m[32m74 [0m[32mac [0m[32mc9 [0m[32m70 [0m[32mf3 [0m[32mce [0m[32m31 [0m[32m00 [0m
 
 [31mDOWNLINK[0m Message with size: 16
 Mando messsaggi al programma python: -1
-[31m08 [0m[31m00 [0m[31m69 [0m[31mb8 [0m[31mc5 [0m[31mf0 [0m[31mdc [0m[31m18 [0m[31m00 [0m[31m3a [0m[31me8 [0m[31m10 [0m[31m00 [0m[31m17 [0m[31m84 [0m[31m80 [0m
+[31m08 [0m[31m00 [0m[31m69 [0m[31mba [0m[31ma3 [0m[31mb4 [0m[31m7d [0m[31m68 [0m[31m00 [0m[31m3a [0m[31me8 [0m[31m10 [0m[31m00 [0m[31m17 [0m[31m84 [0m[31m80 [0m
 NAS downlink message decripted bytes
-3718be1b8300075d020002f090
+3754768fad00075d020002f090
     [94m|[0m
     [94m|[0m
     [94mV[0m
