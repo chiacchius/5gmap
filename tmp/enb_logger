@@ -8,7 +8,7 @@ Couldn't open sib.conf, trying /root/.config/srsran/sib.conf
 Couldn't open rr.conf, trying /root/.config/srsran/rr.conf
 Couldn't open rb.conf, trying /root/.config/srsran/rb.conf
 
-Built in Release mode using commit 1b5b761 on branch main.
+Built in Release mode using commit cd923d4 on branch main.
 
 Opening 1 channels in RF device=zmq with args=fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
 Supported RF device list: zmq file
@@ -18,31 +18,11 @@ Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
 CH0 rx_port=tcp://localhost:2001
 CH0 tx_port=tcp://*:2000
 CH0 fail_on_disconnect=true
+Stopping ..
 
 ==== eNodeB started ===
 Type <t> to view trace
 Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
 Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
 Setting frequency: DL=2680.0 Mhz, UL=2560.0 MHz for cc_idx=0 nof_prb=50
-Closing stdin thread.
-RACH:  tti=341, cc=0, pci=1, preamble=16, offset=0, temp_crnti=0x46
-
-[31mDOWNLINK[0m Message with size: 24
-[31m20 [0m[31m00 [0m[31m2a [0m[31m0e [0m[31m82 [0m[31me2 [0m[31m10 [0m[31m12 [0m[31m20 [0m[31m20 [0m[31m20 [0m[31m64 [0m[31ma8 [0m[31mec [0m[31m10 [0m[31m05 [0m[31me1 [0m[31m20 [0m[31m00 [0m[31m08 [0m[31m04 [0m[31m03 [0m[31ma0 [0m[31m22 [0m
-
-[32mUPLINK[0m Message with size: 39
-[32m08 [0m[32m01 [0m[32m20 [0m[32m3a [0m[32m90 [0m[32m04 [0m[32m31 [0m[32mbf [0m[32m41 [0m[32mdb [0m[32m41 [0m[32mec [0m[32me3 [0m[32m80 [0m[32m4e [0m[32mea [0m[32ma5 [0m[32m09 [0m[32m51 [0m[32m3b [0m[32m18 [0m[32m38 [0m[32m87 [0m[32m0f [0m[32m9c [0m[32m2f [0m[32mb5 [0m[32m6e [0m[32mf4 [0m[32m00 [0m[32m03 [0m[32m03 [0m[32m8b [0m[32m49 [0m[32meb [0m[32m69 [0m[32m09 [0m[32m3d [0m[32md0 [0m
-
-[31mDOWNLINK[0m Message with size: 14
-[31m48 [0m[31m01 [0m[31m60 [0m[31mea [0m[31m61 [0m[31m1f [0m[31m74 [0m[31mac [0m[31mc9 [0m[31m70 [0m[31mf3 [0m[31mce [0m[31m31 [0m[31m00 [0m
-
-[32mUPLINK[0m Message with size: 16
-[32m08 [0m[32m00 [0m[32m69 [0m[32mba [0m[32ma3 [0m[32mb4 [0m[32m7d [0m[32m68 [0m[32m00 [0m[32m3a [0m[32me8 [0m[32m10 [0m[32m00 [0m[32m17 [0m[32m84 [0m[32m80 [0m
-
-[31mDOWNLINK[0m Message with size: 6
-[31m48 [0m[31m00 [0m[31m60 [0m[31meb [0m[31me2 [0m[31me0 [0m
-
-[31mDOWNLINK[0m Message with size: 15
-[31m48 [0m[31m01 [0m[31m80 [0m[31me8 [0m[31ma1 [0m[31m21 [0m[31m01 [0m[31m22 [0m[31m02 [0m[31m02 [0m[31m06 [0m[31m4a [0m[31m8e [0m[31mc1 [0m[31m00 [0m
-Stopping ..
----  exiting  ---
+Couldn't stop after 5s. Forcing exit.

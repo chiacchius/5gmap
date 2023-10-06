@@ -9,11 +9,15 @@ UPLINK = 1
 CIPHER_ALGORITHMS = 4
 INT_ALGORITHMS = 4
 
-FILE_PATH = "/home/user/5gmap/5g_connection.txt"
-PIPE_PATH = "/home/user/5gmap/my_pipe"
-
+# Error types managed
+ATTACHED = "Attached"
 SECURITY_MODE_REJECT = "Security Mode Reject"
+ATTACH_REJECT_13 = "Attach reject #13: Could not attach, try changing your APN"
+ATTACH_REJECT_14 = "Attach reject #14: Could not attach with these capabilities"
+ATTACH_REJECT = "EPC sent attach reject"
+RRC_CONN_REL="RRC Connection Release"
 
+#Commands
 KILL_UE = ["sudo", "pkill", "srsue"]
 KILL_ENB = ["sudo", "pkill", "srsenb"]
 #---------------------------------------------------------------#

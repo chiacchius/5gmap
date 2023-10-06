@@ -1,5 +1,7 @@
 from constant import *
 import datetime
+from tabulate import *
+
 
 border = "+-------------------------+"
 
@@ -11,7 +13,6 @@ def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgori
     print("| {:<28} | {:<}".format("eNB_integrityAlgorithm_supported", str(integrityProtAlgorithm_eNB)))
     print("| {:<28} | {:<}".format("eNB_preferred_cipheringAlgorithm", str(preferred_algorithms[0])))
     print("| {:<28} | {:<}".format("eNB_preferred_integrityAlgorithm", str(preferred_algorithms[1])))
-
     print("\n" + border)
     print("| EPC Security Algorithms |")
     print(border)
@@ -19,23 +20,38 @@ def print_security_algo_supported(enb_cipher_algo_supported, integrityProtAlgori
     print("| {:<28} | {:<}".format("EPC_integrityAlgorithm_supported", str(epc_integ_algo_supported)))
     print("| {:<28} | {:<}".format("EPC_preferred_cipheringAlgorithm", str(preferred_algorithms[2])))
     print("| {:<28} | {:<}".format("EPC_preferred_integrityAlgorithm", str(preferred_algorithms[3])))
+    print_table()
 
 
 
+def print_table():
+    print("\n\nThe table below provides a summary of the algorithm types and their corresponding descriptions.")
+    parameters = ["Type", "Decription"]
+    data = [
+        ["EEA0", "Null ciphering algorithm"],
+        ["EEA1", "SNOW 3G"],
+        ["EEA2", "AES"],
+        ["EEA3", "ZUC"]
+    ]
 
+    # Crea la tabella utilizzando tabulate
+    table = tabulate(data, headers=parameters, tablefmt="grid")
+
+    # Stampa la tabella
+    print(table)
 
 def print_cell_identity(mcc, mnc, cellReservedForOperatorUse, trackingAreaCode, cellIdentity, intraFreqReselection, cellBarred):
-    
+    print("\n\n")
     print(border)
     print("|       Cell identity     |")
     print(border)
     print("| {:<28} | {:<}".format("mcc", str(mcc)))
     print("| {:<28} | {:<}".format("mnc", str(mnc)))
-    print("| {:<28} | {:<}".format("cellReservedForOperatorUse", cellReservedForOperatorUse))
+    #print("| {:<28} | {:<}".format("cellReservedForOperatorUse", cellReservedForOperatorUse))
     print("| {:<28} | {:<}".format("trackingAreaCode", trackingAreaCode))
     print("| {:<28} | {:<}".format("cellIdentity", cellIdentity))
-    print("| {:<28} | {:<}".format("intraFreqReselection", intraFreqReselection))
-    print("| {:<28} | {:<}".format("cellBarred", cellBarred))
+    #print("| {:<28} | {:<}".format("intraFreqReselection", intraFreqReselection))
+    #print("| {:<28} | {:<}".format("cellBarred", cellBarred))
     
 
 def print_header():
@@ -53,11 +69,11 @@ def print_header():
 """)
     if REAL_TESTING:
         #manage imsi 
-        print("[5GMAP]: binding to a real cell")
+        print("[5GMAP] Binding to Base Station")
 
     else:
 
-        print("[5GMAP]: simulation with srsran")
+        print("[5GMAP] Simulation with srsran")
 
 
 def parse_file(file_path):

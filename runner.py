@@ -1,15 +1,18 @@
 import subprocess
 import datetime
 import time
+import threading
 from utils import *
 from colorama import init, Fore, Back
 import os
 from constant import *
 from communication import *
 from data import *
+from srsran_handle import *
+import queue
 
 
-Attach_proc_mex_dec = {}
+
 enb_cipher_algo_supported = []
 epc_cipher_algo_supported = []
 enb_integ_algo_supported = []
@@ -19,39 +22,69 @@ preferred_algorithms = [None,None,None,None]
 # ---------------------------------------------- Utilities ---------------------------------------------- #
 
 def attach_ue(eea, eia):
+    if eea == 0 and eia is None:
+        return run_ue("eea", None)
     if eea is not None and eia is None:
-        run_ue("eea", eea)
+        return run_ue("eea", eea)
     elif eea is None and eia is not None:
-        run_ue("eia", eia)
+        return run_ue("eia", eia)
+
+def srsran_communication_handler(messagges):
+
+    srsran_handle = Srsran_handle()
+    msg_parsed = srsran_handle.receive_msg()
+    messagges.put(msg_parsed)
+
+
 
 def run_ue(algo_type, algo_value):
+    
+    messagges = queue.Queue()
+    srsran_communication_manager = threading.Thread(target=srsran_communication_handler, args=(messagges, ))
+    srsran_communication_manager.start()
+
 
     if REAL_TESTING:
-        #manage imsi 
-        print(f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}")
-        command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    else:
-        print(f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}")
-        command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}"
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    os.mkfifo(PIPE_PATH)
-    try:
-        message = open(PIPE_PATH, 'r')
-        if message.read() == SECURITY_MODE_REJECT:
-            print(f"'Security Mode Reject' if try to attach with : '{algo_type}0' & '{algo_type}{algo_value}'")
-
-        if REAL_TESTING:
-            completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        
+        if algo_type == "eea" and algo_value == None:
+            print(f"[5GMAP] Attaching with {algo_type} = 0")
+            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0 --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
 
         else:
-            completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-            completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+            print("[5GMAP] Attaching with {algo_type} = 0,{algo_value}")
+            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        
+    else:
+        
+        if algo_type == "eea" and algo_value == None:
+            print(f"[5GMAP] Attaching with {algo_type} = 0")
+            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0"
+        else:
+            print(f"[5GMAP] Attaching with {algo_type} = 0,{algo_value}")
+            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value}"
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    finally:
-        os.remove(PIPE_PATH)
-        time.sleep(5)
+
+    srsran_communication_manager.join()
+    messagges_parsed = messagges.get()
+
+
+    if REAL_TESTING:
+        completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+    else:
+
+        completed_ue_process = subprocess.run(KILL_UE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        completed_enb_process = subprocess.run(KILL_ENB, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+
+
+    time.sleep(5)
+    return messagges_parsed
+
+
+
 
 
 def manage_messages(msg_sections, cyph_algos, integ_algos):
@@ -100,13 +133,11 @@ def manage_messages(msg_sections, cyph_algos, integ_algos):
                 if section_name == "SIB3":
                     communication.set_sib3_msg(data)
 
-    
     return communication
 
 def retrieve_cell_info(communication):
     
     sib1 = communication.get_sib1_msg().get_pdu()
-    
     mcc = get_key_value(sib1, "mcc")
     mnc = get_key_value(sib1, "mnc")
     cellReservedForOperatorUse = get_key_value(sib1, "cellReservedForOperatorUse")
@@ -123,10 +154,6 @@ def manage_sec_algos(communication):
 
     enb_cipher_algo, enb_integ_algo  = communication.find_enb_sec_algo()
     epc_cipher_algo, epc_integ_algo  = communication.find_epc_sec_algo()
-    # print("eNB cipher algo choice: ", enb_cipher_algo)
-    # print("eNB integ algo choice: ", enb_integ_algo)
-    # print("EPC cipher algo choice: ", epc_cipher_algo)
-    # print("EPC integ algo choice: ", epc_integ_algo)
     if (enb_cipher_algo!=None and enb_cipher_algo not in enb_cipher_algo_supported) :
         enb_cipher_algo_supported.append(enb_cipher_algo)
     
@@ -150,35 +177,47 @@ def manage_sec_algos(communication):
         preferred_algorithms[2] = epc_cipher_algo
        
     if communication.get_integ_algo() == None and preferred_algorithms[3] == None:
-        
         preferred_algorithms[3] = epc_integ_algo
 # -------------------------------------------------------------------------------------------------------- #
+
+
+
 def run_cipher_algorithm(eea):
-    attach_ue(eea, None)
-    msg_sections = parse_file(FILE_PATH)
+
+    
+    msg_sections = attach_ue(eea, None)
     communication = manage_messages(msg_sections, [0, eea], None)
-    if eea == 1:
-        retrieve_cell_info(communication)
     manage_sec_algos(communication)
+    return communication
 
 
 def run_integ_algorithm(eia):
-    attach_ue(None, eia)
-    msg_sections = parse_file(FILE_PATH)
+
+    
+    msg_sections = attach_ue(None, eia)    
     communication = manage_messages(msg_sections, None, [0, eia])
     manage_sec_algos(communication)
+    return communication
+    
+
 
 
 def main():
     
     print_header()
-    for eea in range(1, CIPHER_ALGORITHMS):
-        run_cipher_algorithm(eea)
+    for eea in range(0, CIPHER_ALGORITHMS):
+        communication = run_cipher_algorithm(eea)
 
     for eia in range(1, INT_ALGORITHMS):
-        run_integ_algorithm(eia)
+         communication = run_integ_algorithm(eia)
 
+    retrieve_cell_info(communication)
     print_security_algo_supported(enb_cipher_algo_supported, enb_integ_algo_supported, epc_cipher_algo_supported, epc_integ_algo_supported, preferred_algorithms)
+
+
+
+
+
 
 
 
