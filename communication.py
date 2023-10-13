@@ -121,8 +121,11 @@ class Communication:
                 ciph_algo = get_key_value(nas_msg.get_pdu(), "CiphAlgo")
                 integ_algo = get_key_value(nas_msg.get_pdu(), "IntegAlgo")
 
-        ciph_algo = "eea" + str(ciph_algo)
-        integ_algo = "eia" + str(integ_algo)
+        if (ciph_algo is not None):
+            ciph_algo = "eea" + str(ciph_algo)
+        if (integ_algo is not None):
+            integ_algo = "eia" + str(integ_algo)
+        
         return ciph_algo, integ_algo
 
 

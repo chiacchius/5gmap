@@ -1,0 +1,81 @@
+user@black:~/Desktop/5gmap/5gmap$ sudo ./5gmap.sh 
+[sudo] password for user: 
+Sorry, try again.
+[sudo] password for user: 
+warning: CryptoMobile Python module not found, unable to handle LTE NAS security
+warning: CryptoMobile Python module not found, unable to handle 5G NAS security
+Starting 5GMap (https://github.com/chiacchius/5gmap) at 2023-10-13 00:09 
+It may take several minutes.
+
+╭─────────────────────────────────────────────────╮
+│ .------.  ,----.  ,--.   ,--.  ,---.  ,------.  │
+│ |  .--.' '  .-./  |   `.'   | /  O  \ |  .--. ' │
+│ '---. \ |  | .---.|  |'.'|  ||  .-.  ||  '--' | │
+│ .---' / '  '--'  ||  |   |  ||  | |  ||  | --'  │
+│ `----'   `------' `--'   `--'`--' `--'`--'      │
+╰─────────────────────────────────────────────────╯
+
+[5GMAP] Binding to Base Station
+[5GMAP] Attaching with eea = 0
+[5GMAP] Attach reject #14: Could not attach with these capabilities
+[5GMAP] Attaching with eea = 0,1
+[5GMAP] Attached
+[5GMAP] enb_cipher_algo =  eea1
+[5GMAP] enb_integ_algo =  eia2
+[5GMAP] epc_cipher_algo =  eea1
+[5GMAP] epc_integ_algo =  eia2
+[5GMAP] Attaching with eea = 0,2
+[5GMAP] Attached
+[5GMAP] enb_cipher_algo =  eea2
+[5GMAP] epc_cipher_algo =  eea2
+[5GMAP] Attaching with eea = 0,3
+[5GMAP] Attach reject #14: Could not attach with these capabilities
+[5GMAP] Attaching with eia = 0,1
+[5GMAP] Attached
+[5GMAP] enb_integ_algo =  eia1
+[5GMAP] epc_integ_algo =  eia1
+[5GMAP] Attaching with eia = 0,2
+[5GMAP] Attached
+[5GMAP] Attaching with eia = 0,3
+[5GMAP] Attach reject #14: Could not attach with these capabilities
+
+
+
++-------------------------+
+|       Cell identity     |
++-------------------------+
+| mcc                          | [['2', '2', '2'], ['2', '2', '2'], ['2', '2', '2']]
+| mnc                          | [['8', '8'], ['5', '0'], ['9', '9']]
+| trackingAreaCode             | 30553
+| cellIdentity                 | 81090566
+
++-------------------------+
+| eNB Security Algorithms |
++-------------------------+
+| eNB_cipheringAlgorithm_supported | ['eea1', 'eea2']
+| eNB_integrityAlgorithm_supported | ['eia2', 'eia1']
+| eNB_preferred_cipheringAlgorithm | eea2
+| eNB_preferred_integrityAlgorithm | eia2
+
++-------------------------+
+| EPC Security Algorithms |
++-------------------------+
+| EPC_cipheringAlgorithm_supported | ['eea1', 'eea2']
+| EPC_integrityAlgorithm_supported | ['eia2', 'eia1']
+| EPC_preferred_cipheringAlgorithm | eea1
+| EPC_preferred_integrityAlgorithm | eia2
+
+
+The table below provides a summary of the algorithm types and their corresponding descriptions.
++--------+--------------------------+
+| Type   | Decription               |
++========+==========================+
+| EEA0   | Null ciphering algorithm |
+ +--------+--------------------------+
+| EEA1   | SNOW 3G                  |
++--------+--------------------------+
+| EEA2   | AES                      |
++--------+--------------------------+
+| EEA3   | ZUC                      |
++--------+--------------------------+
+Execution time: 71.18787837028503 seconds

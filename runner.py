@@ -48,11 +48,11 @@ def run_ue(algo_type, algo_value):
         
         if algo_type == "eea" and algo_value == None:
             print(f"[5GMAP] Attaching with {algo_type} = 0")
-            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0 --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
+            command = f"sudo ./5gmap_real.sh --nas.{algo_type}=0"
 
         else:
-            print("[5GMAP] Attaching with {algo_type} = 0,{algo_value}")
-            command = f"sudo ./5gmap_sim.sh --nas.{algo_type}=0,{algo_value} --usim.mode=pcsc --rat.eutra.dl_earfcn=={EARFCN}"
+            print(f"[5GMAP] Attaching with {algo_type} = 0,{algo_value}")
+            command = f"sudo ./5gmap_real.sh --nas.{algo_type}=0,{algo_value}"
         process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         
     else:
@@ -154,29 +154,33 @@ def manage_sec_algos(communication):
 
     enb_cipher_algo, enb_integ_algo  = communication.find_enb_sec_algo()
     epc_cipher_algo, epc_integ_algo  = communication.find_epc_sec_algo()
-    if (enb_cipher_algo!=None and enb_cipher_algo not in enb_cipher_algo_supported) :
+    if (enb_cipher_algo is not None and enb_cipher_algo not in enb_cipher_algo_supported) :
+        print("[5GMAP] enb_cipher_algo = ",enb_cipher_algo)
         enb_cipher_algo_supported.append(enb_cipher_algo)
     
-    if (enb_integ_algo!=None and enb_integ_algo not in enb_integ_algo_supported) :
+    if (enb_integ_algo is not None and enb_integ_algo not in enb_integ_algo_supported) :
+        print("[5GMAP] enb_integ_algo = ",enb_integ_algo)
         enb_integ_algo_supported.append(enb_integ_algo)
 
 
-    if (epc_cipher_algo!=None and epc_cipher_algo not in epc_cipher_algo_supported) :
+    if (epc_cipher_algo is not None and epc_cipher_algo not in epc_cipher_algo_supported) :
+        print("[5GMAP] epc_cipher_algo = ", epc_cipher_algo)
         epc_cipher_algo_supported.append(epc_cipher_algo)
     
-    if (epc_integ_algo!=None and epc_integ_algo not in epc_integ_algo_supported) :
+    if (epc_integ_algo is not None and epc_integ_algo not in epc_integ_algo_supported) :
+        print("[5GMAP] epc_integ_algo = ",epc_integ_algo)
         epc_integ_algo_supported.append(epc_integ_algo)
     
-    if communication.get_ciph_algo() == None and preferred_algorithms[0] == None:
+    if communication.get_ciph_algo() is None and preferred_algorithms[0] is None:
         preferred_algorithms[0] = enb_cipher_algo
 
-    if communication.get_integ_algo() == None and preferred_algorithms[1] == None:
+    if communication.get_integ_algo() is None and preferred_algorithms[1] is None:
         preferred_algorithms[1] = enb_integ_algo
 
-    if communication.get_ciph_algo() == None and preferred_algorithms[2] == None:
+    if communication.get_ciph_algo() is None and preferred_algorithms[2] is None:
         preferred_algorithms[2] = epc_cipher_algo
        
-    if communication.get_integ_algo() == None and preferred_algorithms[3] == None:
+    if communication.get_integ_algo() is None and preferred_algorithms[3] is None:
         preferred_algorithms[3] = epc_integ_algo
 # -------------------------------------------------------------------------------------------------------- #
 
@@ -227,8 +231,4 @@ if __name__ == "__main__":
     end = time.time()
     execution_time = end - start
     print(f"Execution time: {execution_time} seconds")
-
-        
-
-    
 

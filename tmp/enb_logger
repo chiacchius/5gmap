@@ -8,7 +8,7 @@ Couldn't open sib.conf, trying /root/.config/srsran/sib.conf
 Couldn't open rr.conf, trying /root/.config/srsran/rr.conf
 Couldn't open rb.conf, trying /root/.config/srsran/rb.conf
 
-Built in Release mode using commit cd923d4 on branch main.
+Built in Release mode using commit ceb6a77 on branch main.
 
 Opening 1 channels in RF device=zmq with args=fail_on_disconnect=true,tx_port=tcp://*:2000,rx_port=tcp://localhost:2001,id=enb,base_srate=23.04e6
 Supported RF device list: zmq file
@@ -18,11 +18,25 @@ Current sample rate is 1.92 MHz with a base rate of 23.04 MHz (x12 decimation)
 CH0 rx_port=tcp://localhost:2001
 CH0 tx_port=tcp://*:2000
 CH0 fail_on_disconnect=true
-Stopping ..
 
 ==== eNodeB started ===
 Type <t> to view trace
 Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
 Current sample rate is 11.52 MHz with a base rate of 23.04 MHz (x2 decimation)
 Setting frequency: DL=2680.0 Mhz, UL=2560.0 MHz for cc_idx=0 nof_prb=50
-Couldn't stop after 5s. Forcing exit.
+Closing stdin thread.
+RACH:  tti=341, cc=0, pci=1, preamble=45, offset=0, temp_crnti=0x46
+
+[31mDOWNLINK[0m Message with size: 24
+[31m20 [0m[31m00 [0m[31m2a [0m[31m0e [0m[31m82 [0m[31me2 [0m[31m10 [0m[31m12 [0m[31m20 [0m[31m20 [0m[31m20 [0m[31m64 [0m[31ma8 [0m[31mec [0m[31m10 [0m[31m05 [0m[31me1 [0m[31m20 [0m[31m00 [0m[31m08 [0m[31m04 [0m[31m03 [0m[31ma0 [0m[31m22 [0m
+
+[32mUPLINK[0m Message with size: 39
+[32m08 [0m[32m01 [0m[32m20 [0m[32m3a [0m[32m90 [0m[32m00 [0m[32m8f [0m[32mc5 [0m[32md4 [0m[32m18 [0m[32mba [0m[32m57 [0m[32ma7 [0m[32m31 [0m[32mdc [0m[32m19 [0m[32m4e [0m[32m68 [0m[32m90 [0m[32mf4 [0m[32m76 [0m[32mf8 [0m[32m84 [0m[32m82 [0m[32m10 [0m[32m0f [0m[32m07 [0m[32mc0 [0m[32m04 [0m[32m00 [0m[32m02 [0m[32mab [0m[32me7 [0m[32m27 [0m[32m54 [0m[32m84 [0m[32mf9 [0m[32m72 [0m[32ma8 [0m
+
+[31mDOWNLINK[0m Message with size: 14
+[31m48 [0m[31m01 [0m[31m60 [0m[31mea [0m[31m61 [0m[31m10 [0m[31m12 [0m[31m3c [0m[31m2c [0m[31m36 [0m[31mf3 [0m[31m22 [0m[31mc1 [0m[31m80 [0m
+
+[32mUPLINK[0m Message with size: 16
+[32m08 [0m[32m00 [0m[32m69 [0m[32mbf [0m[32m13 [0m[32m39 [0m[32m1a [0m[32mf0 [0m[32m00 [0m[32m3a [0m[32me8 [0m[32m90 [0m[32m00 [0m[32m17 [0m[32m84 [0m[32m80 [0m
+Stopping ..
+---  exiting  ---
